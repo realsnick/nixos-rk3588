@@ -5,13 +5,17 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05-small";
 
     # GPU drivers
-    mesa-panfork = {
-      url = "gitlab:panfork/mesa/csf";
-      flake = false;
-    };
+    # mesa-panfork = {
+    # url = "gitlab:panfork/mesa/csf";
+    # flake = false;
+    # };
   };
 
-  outputs = inputs@{self, nixpkgs, ...}: let
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    ...
+  }: let
     pkgsKernel = import nixpkgs {
       system = "x86_64-linux";
       crossSystem = {
@@ -30,19 +34,18 @@
       orangepi5 = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
         system = "x86_64-linux";
         specialArgs = inputs;
-        modules =
-          [
-            {
-              networking.hostName = "orangepi5";
+        modules = [
+          {
+            networking.hostName = "orangepi5";
 
-              nixpkgs.crossSystem = {
-                config = "aarch64-unknown-linux-gnu";
-              };
-            }
+            nixpkgs.crossSystem = {
+              config = "aarch64-unknown-linux-gnu";
+            };
+          }
 
-            ./modules/boards/orangepi5.nix
-            ./modules/user-group.nix
-          ];
+          ./modules/boards/orangepi5.nix
+          ./modules/user-group.nix
+        ];
       };
 
       # Orange Pi 5 Plus SBC
@@ -50,19 +53,18 @@
       orangepi5plus = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
         system = "x86_64-linux";
         specialArgs = inputs;
-        modules =
-          [
-            {
-              networking.hostName = "orangepi5plus";
+        modules = [
+          {
+            networking.hostName = "orangepi5plus";
 
-              nixpkgs.crossSystem = {
-                config = "aarch64-unknown-linux-gnu";
-              };
-            }
+            nixpkgs.crossSystem = {
+              config = "aarch64-unknown-linux-gnu";
+            };
+          }
 
-            ./modules/boards/orangepi5plus.nix
-            ./modules/user-group.nix
-          ];
+          ./modules/boards/orangepi5plus.nix
+          ./modules/user-group.nix
+        ];
       };
 
       # Rock 5 Model A SBC
@@ -70,19 +72,18 @@
       rock5a = import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
         system = "x86_64-linux";
         specialArgs = inputs;
-        modules =
-          [
-            {
-              networking.hostName = "rock5a";
+        modules = [
+          {
+            networking.hostName = "rock5a";
 
-              nixpkgs.crossSystem = {
-                config = "aarch64-unknown-linux-gnu";
-              };
-            }
+            nixpkgs.crossSystem = {
+              config = "aarch64-unknown-linux-gnu";
+            };
+          }
 
-            ./modules/boards/rock5a.nix
-            ./modules/user-group.nix
-          ];
+          ./modules/boards/rock5a.nix
+          ./modules/user-group.nix
+        ];
       };
     };
 
@@ -96,7 +97,7 @@
       # use `nix develop` to enter the environment with the custom kernel build environment available.
       # and then use `unpackPhase` to unpack the kernel source code and cd into it.
       # then you can use `make menuconfig` to configure the kernel.
-      # 
+      #
       # problem
       #   - using `make menuconfig` - Unable to find the ncurses package.
       # Solution
@@ -138,6 +139,7 @@
           export PKG_CONFIG_PATH="${pkgs.ncurses.dev}/lib/pkgconfig:"
           exec bash
         '';
-      }).env;
+      })
+      .env;
   };
 }

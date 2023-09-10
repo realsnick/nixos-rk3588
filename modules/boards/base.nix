@@ -1,7 +1,7 @@
 {
   lib,
   pkgs,
-  mesa-panfork,
+  # mesa-panfork,
   ...
 }: {
   # =========================================================================
@@ -59,33 +59,33 @@
 
   powerManagement.cpuFreqGovernor = "ondemand";
 
-  hardware = {
-    # driver & firmware for Mali-G610 GPU
-    # it works on all rk2588/rk3588s based SBCs.
-    opengl = {
-      enable = true;
-      package =
-        lib.mkForce
-        (
-          (pkgs.mesa.override {
-            galliumDrivers = ["panfrost" "swrast"];
-            vulkanDrivers = ["swrast"];
-          })
-          .overrideAttrs (_: {
-            pname = "mesa-panfork";
-            version = "23.0.0-panfork";
-            src = mesa-panfork;
-          })
-        )
-        .drivers;
-    };
+  # hardware = {
+  #   # driver & firmware for Mali-G610 GPU
+  #   # it works on all rk2588/rk3588s based SBCs.
+  #   opengl = {
+  #     enable = true;
+  #     package =
+  #       lib.mkForce
+  #       (
+  #         (pkgs.mesa.override {
+  #           galliumDrivers = ["panfrost" "swrast"];
+  #           vulkanDrivers = ["swrast"];
+  #         })
+  #         .overrideAttrs (_: {
+  #           pname = "mesa-panfork";
+  #           version = "23.0.0-panfork";
+  #           src = mesa-panfork;
+  #         })
+  #       )
+  #       .drivers;
+  #   };
 
-    enableRedistributableFirmware = true;
-    firmware = [
-      # firmware for Mali-G610 GPU
-      (pkgs.callPackage ../../pkgs/mali-firmware {})
-    ];
-  };
+  #   enableRedistributableFirmware = true;
+  #   firmware = [
+  #     # firmware for Mali-G610 GPU
+  #     (pkgs.callPackage ../../pkgs/mali-firmware {})
+  #   ];
+  # };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
