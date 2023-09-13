@@ -52,24 +52,24 @@ in {
     ];
   };
 
-  # sdImage = {
-  #   inherit rootPartitionUUID;
+  sdImage = {
+    inherit rootPartitionUUID;
 
-  #   imageBaseName = "${boardName}-sd-image";
-  #   compressImage = true;
+    imageBaseName = "${boardName}-sd-image";
+    compressImage = true;
 
-  #   # install firmware into a separate partition: /boot/firmware
-  #   populateFirmwareCommands = ''
-  #     ${config.boot.loader.generic-extlinux-compatible.populateCmd} -c ${config.system.build.toplevel} -d ./firmware
-  #   '';
-  #   # Gap in front of the /boot/firmware partition, in mebibytes (1024×1024 bytes).
-  #   # Can be increased to make more space for boards requiring to dd u-boot SPL before actual partitions.
-  #   firmwarePartitionOffset = 32;
-  #   firmwarePartitionName = "BOOT";
-  #   firmwareSize = 200; # MiB
+    # install firmware into a separate partition: /boot/firmware
+    populateFirmwareCommands = ''
+      ${config.boot.loader.generic-extlinux-compatible.populateCmd} -c ${config.system.build.toplevel} -d ./firmware
+    '';
+    # Gap in front of the /boot/firmware partition, in mebibytes (1024×1024 bytes).
+    # Can be increased to make more space for boards requiring to dd u-boot SPL before actual partitions.
+    firmwarePartitionOffset = 32;
+    firmwarePartitionName = "BOOT";
+    firmwareSize = 200; # MiB
 
-  #   populateRootCommands = ''
-  #     mkdir -p ./files/boot
-  #   '';
-  # };
+    populateRootCommands = ''
+      mkdir -p ./files/boot
+    '';
+  };
 }
