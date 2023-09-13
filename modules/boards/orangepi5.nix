@@ -6,13 +6,16 @@
   pkgs,
   nixpkgs,
   ...
-}: let
+}: 
+
+let
   boardName = "orangepi5";
-  # rootPartitionUUID = "14e19a7b-0ae0-484d-9d54-43bd6fdc20c7";
-in {
+  rootPartitionUUID = "14e19a7b-0ae0-484d-9d54-43bd6fdc20c7";
+in
+{
   imports = [
     ./base.nix
-    # "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+    "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
   ];
 
   boot = {
@@ -20,14 +23,14 @@ in {
 
     # kernelParams copy from Armbian's /boot/armbianEnv.txt & /boot/boot.cmd
     kernelParams = [
-      # "root=UUID=${rootPartitionUUID}"
+      "root=UUID=${rootPartitionUUID}"
       "rootwait"
       "rootfstype=ext4"
 
-      "earlycon" # enable early console, so we can see the boot messages via serial port / HDMI
-      "consoleblank=0" # disable console blanking(screen saver)
+      "earlycon"  # enable early console, so we can see the boot messages via serial port / HDMI
+      "consoleblank=0"  # disable console blanking(screen saver)
       "console=ttyS2,1500000" # serial port
-      "console=tty1" # HDMI
+      "console=tty1"          # HDMI
 
       # docker optimizations
       "cgroup_enable=cpuset"
